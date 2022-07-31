@@ -87,17 +87,107 @@ public class CategoryServiceImpl implements  ICategoryService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CategoryResponseRest> save(Category category) {
-        return null;
+
+        CategoryResponseRest response = new CategoryResponseRest();
+        List<Category> list = new ArrayList<>();
+
+        try {
+
+                    Category categorySaved = categoryDao.save(category);
+
+//                            System.out.println(categorySaved);
+
+                    if (categorySaved != null) {
+                        list.add(categorySaved);
+                        response.getCategoryResponse().setCategory(list);
+                        response.setMetadata("Respuesta ok", "00", "Categoria guardada");
+                    } else {
+                        response.setMetadata("Respuesta nok", "-1", "Categoria no guardada");
+                        return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
+                    }
+
+
+        } catch (Exception e) {
+
+            response.setMetadata("Respuesta nok", "-1", "Error al grabar categoria");
+            e.getStackTrace();
+            return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+        }
+
+        return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CategoryResponseRest> update(Category category, Long id) {
-        return null;
+        CategoryResponseRest response = new CategoryResponseRest();
+        List<Category> list = new ArrayList<>();
+
+        try {
+
+            Optional<Category> categorySearch = categoryDao.findById(id);
+
+            if (categorySearch.isPresent()) {
+                        // se procederá a actualizar el registro
+                        categorySearch.get().setName(category.getName());
+                        categorySearch.get().setDescription(category.getDescription());
+
+                        Category categoryToUpdate = categoryDao.save(categorySearch.get());
+
+                        if (categoryToUpdate != null) {
+                            list.add(categoryToUpdate);
+                            response.getCategoryResponse().setCategory(list);
+                            response.setMetadata("Respuesta ok", "00", "Categoria actualizada");
+                        } else {
+                            response.setMetadata("Respuesta nok", "-1", "Categoria no actualizada");
+                            return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
+                        }
+
+
+            } else {
+                response.setMetadata("Respuesta nok", "-1", "Categoria no encontrada");
+                return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.NOT_FOUND);
+            }
+
+
+        } catch (Exception e) {
+
+            response.setMetadata("Respuesta nok", "-1", "Error al actualizar categoria");
+            e.getStackTrace();
+            return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+        }
+
+        return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CategoryResponseRest> deleteById(Long id) {
-        return null;
+
+        CategoryResponseRest response = new CategoryResponseRest();
+
+        try {
+
+            categoryDao.deleteById(id);
+            response.setMetadata("respuesta ok", "00", "Registro eliminado");
+
+
+        } catch (Exception e) {
+
+            response.setMetadata("Respuesta nok", "-1", "Error al eliminar");
+            e.getStackTrace();
+            return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+        }
+
+        return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
+
     }
 }

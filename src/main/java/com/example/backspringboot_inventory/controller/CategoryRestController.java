@@ -1,5 +1,6 @@
 package com.example.backspringboot_inventory.controller;
 
+import com.example.backspringboot_inventory.model.Category;
 import com.example.backspringboot_inventory.response.CategoryResponseRest;
 import com.example.backspringboot_inventory.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,43 +40,43 @@ public class CategoryRestController {
     }
 
 
-//    /**
-//     * save categories
-//     * @param Category
-//     * @return
-//     */
-//    @PostMapping("/categories")
-//    public ResponseEntity<CategoryResponseRest> save(@RequestBody Category category) {
-//
-//        ResponseEntity<CategoryResponseRest> response = service.save(category);
-//        return response;
-//    }
-//
-//    /**
-//     * update categories
-//     * @param category
-//     * @param id
-//     * @return
-//     */
-//    @PutMapping("/categories/{id}")
-//    public ResponseEntity<CategoryResponseRest> update(@RequestBody Category category, @PathVariable Long id) {
-//
-//        ResponseEntity<CategoryResponseRest> response = service.update(category, id);
-//        return response;
-//    }
-//
-//    /**
-//     * delete categorie
-//     * @param id
-//     * @return
-//     */
-//    @DeleteMapping("/categories/{id}")
-//    public ResponseEntity<CategoryResponseRest> delete(@PathVariable Long id) {
-//
-//        ResponseEntity<CategoryResponseRest> response = service.deleteById(id);
-//        return response;
-//    }
-//
+    /**
+     * save categories
+     * @param Category
+     * @return
+     */
+    @PostMapping("/categories")
+    public ResponseEntity<CategoryResponseRest> save(@RequestBody Category category) {
+
+        ResponseEntity<CategoryResponseRest> response = service.save(category);
+        return response;
+    }
+
+    /**
+     * update categories
+     * @param category
+     * @param id
+     * @return
+     */
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<CategoryResponseRest> update(@RequestBody Category category, @PathVariable Long id) {
+
+        ResponseEntity<CategoryResponseRest> response = service.update(category, id);
+        return response;
+    }
+
+    /**
+     * delete categorie
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<CategoryResponseRest> delete(@PathVariable Long id) {
+
+        ResponseEntity<CategoryResponseRest> response = service.deleteById(id);
+        return response;
+    }
+
 //    /**
 //     * export to excel file
 //     * @param respons
