@@ -3,6 +3,7 @@ package com.example.backspringboot_inventory.controller;
 import com.example.backspringboot_inventory.model.Category;
 import com.example.backspringboot_inventory.response.CategoryResponseRest;
 import com.example.backspringboot_inventory.services.ICategoryService;
+import com.example.backspringboot_inventory.util.CategoryExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -78,28 +79,28 @@ public class CategoryRestController {
         return response;
     }
 
-//    /**
-//     * export to excel file
-//     * @param respons
-//     * @throws IOException
-//     */
-//    @GetMapping("/categories/export/excel")
-//    public void exportToExcel(HttpServletResponse response) throws IOException {
-//
-//        response.setContentType("application/octet-stream");
-//
-//        String headerKey = "Content-Disposition";
-//        String headerValue = "attachment; filename=result_category";
-//        response.setHeader(headerKey, headerValue);
-//
-//        ResponseEntity<CategoryResponseRest> categoryResponse = service.search();
-//
-//        CategoryExcelExporter excelExporter = new CategoryExcelExporter(
-//                categoryResponse.getBody().getCategoryResponse().getCategory());
-//
-//        excelExporter.export(response);
-//
-//
-//    }
+    /**
+     * export to excel file
+     * @param respons
+     * @throws IOException
+     */
+    @GetMapping("/categories/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/octet-stream");
+
+        String headerKey = "Content-Disposition"; //
+        String headerValue = "attachment; filename=result_category.xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        ResponseEntity<CategoryResponseRest> categoryResponse = service.search();
+
+        CategoryExcelExporter excelExporter = new CategoryExcelExporter(
+                categoryResponse.getBody().getCategoryResponse().getCategory());
+
+        excelExporter.export(response);
+
+
+    }
 
 }

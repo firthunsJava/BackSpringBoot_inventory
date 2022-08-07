@@ -4,6 +4,7 @@ package com.example.backspringboot_inventory.controller;
 import com.example.backspringboot_inventory.model.Product;
 import com.example.backspringboot_inventory.response.ProductResponseRest;
 import com.example.backspringboot_inventory.services.IProductService;
+import com.example.backspringboot_inventory.util.ProductExcelExporter;
 import com.example.backspringboot_inventory.util.Util;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -145,15 +146,15 @@ public class ProductRestController {
         response.setContentType("application/octet-stream");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=result_product";
+        String headerValue = "attachment; filename=result_product.xlsx";
         response.setHeader(headerKey, headerValue);
 
         ResponseEntity<ProductResponseRest> products = productService.search();
 
-//        ProductExcelExporter excelExporter = new ProductExcelExporter(
-//                products.getBody().getProduct().getProducts());
-//
-//        excelExporter.export(response);
+        ProductExcelExporter excelExporter = new ProductExcelExporter(
+                products.getBody().getProduct().getProducts());
+
+        excelExporter.export(response);
 
 
     }
